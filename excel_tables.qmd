@@ -1,0 +1,186 @@
+---
+title: "Excel tables"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date: "`r params$date`"
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+editor_options: 
+    chunk_output_type: console
+params:
+  date: "2025-01-02"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align = "center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"), plot.background = element_rect(fill = "#202c39"), axis.line = element_line(size = 0.5, linetype = "solid", colour = "#f4f3ee"), axis.text = element_text(colour = "#f4f3ee"), text = element_text(colour = "#f4f3ee"), legend.background = element_rect(fill = "#4D5661"), strip.text = element_text(colour = "#f4f3ee"), strip.background = element_rect(fill = "#4D5661", color = "#202c39"), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+
+## Where does this fit in?
+
+![KIND Excel beginner skill tree](images/clipboard-3911010684.png)
+
+-   for this session, you'll need to be familiar with the Excel basics (getting around in Excel, opening/saving/closing files, A1 referencing, and values)
+-   we're going to dodge formatting and formulas as much as possible today
+
+## The big idea
+
+Excel tables contain, present, and protect your data
+
+![Excel tables contain, present, and protect your data](images/lunchbox.jpg)
+
+## Session outline
+
+-   introduction
+-   add and remove tables
+-   grow and shrink tables
+-   autofill and friends
+-   sort and filter
+-   names and reference
+-   pass data to other tools
+
+## Introduction
+
+-   this is an easy session to sum up: **use tables in Excel**
+-   most people don't use Excel tables
+-   they're probably the best Excel skill investment there is
+-   this is a practical session, so you'll need some kind of Excel to follow along
+
+## Some data
+
+-   tables are potentially useful throughout the life-cycle of an Excel file
+-   let's start at the beginning:
+    1.  open Excel
+    2.  in a new worksheet, please enter today's date
+        1.  DD/MM/YYYY format is best, but we'll park that for the formatting session </br> ![Enter a date in a cell](images/clipboard-3905090772.png)
+
+## Add a table
+
+1. make sure you have that date selected
+1.  In the ribbon menu, go to `Insert` `>` `Table` </br> ![`Insert` `>` `Table`](images/clipboard-112703173.png)
+    1.  or you can use `Ctrl` + `t`
+2.  you'll be asked to create a table - you should be able just to select `OK` </br> ![Create a table](images/clipboard-3913166740.png)
+
+## A first table
+
+-   congratulations, you should now have a 1-cell table on your worksheet </br>![a 1-cell table](images/clipboard-467996436.png)
+-   think about this as a **container** for your data
+    -   you could call it a **data structure** instead if you wanted to be more fancy
+
+## Removing your table
+
+1.  Tables aren't formatting - so you can't clear them like formatting
+2.  Click inside your table, and you should see a new section of the ribbon menu - `Design` or `Table Design` depending on your version </br>![`Design` or `Table Design` menu](images/clipboard-903977516.png)
+3.  Select that `Table Design` section. The most useful parts are on the far left: </br> ![`Design` or `Table Design` menu](images/clipboard-1056500409.png)
+4.  Select `Convert to Range` - your table should now return to being an ordinary cell
+5.  Finally, please **re-table** your cell
+
+## Grow and shrink tables
+
+Let's add some new data:
+
+1.  Please add three or four more dates, going back into last week, in the rows below your date
+2.  Please add a word describing your main breakfast item in the next column
+3.  Please add a third column, scoring that breakfast out of ten
+
+## Grow and shrink tables
+4. Now expand your table to include that new data. You can drag the blue handle: </br>![Expand your table with the blue handle](images/clipboard-2487072995.png)</br> or use the `Resize Table` tool in the ribbon menu: </br> ![`Resize Table` tool in the ribbon menu](images/clipboard-1207705760.png). 
+1. You can use the same methods to shrink a table
+
+## Autofill and friends
+
+1.  drag down to add two more empty rows
+1.  select your three dates, and drag the **green** fill handle down into the empty cells </br>![drag the **green** fill handle down into the empty cells](images/clipboard-3445425412.png)
+1.  this *should* populate the correct values - although you'll need to check carefully that everything has worked
+
+## Filter and sort
+
+Each of your column headers has a dropdown menu ![dropdown menu](images/clipboard-1297021923.png) that will allow you to sort and filter your table
+
+- sort allows you to order your table by that column
+- filters shows and hides rows of the table
+- you'll have different filtering options for the different types of columns in your table
+
+## Names and reference
+
+- you can name each column. These work best as single descriptive words - `date` rather than `breakfast date`
+
+    -   you might find it helpful to write longer names in snake case (`breakfast_date`) or camel case (`breakfastDate`)
+
+    -   please now name your columns
+
+-   you can also name the table as a whole. Again, that's done from the left-hand side of the `Table` menu </br> ![name tables from the left-hand side of the `Table` menu](images/clipboard-3100742867.png)
+
+    -   please give your table an appropriate name
+
+## Passing data demo
+
+-   Your table can now be saved, developed further, or passed to other data tools
+-   Tables have major advantages on this front:
+    -   they're portable, so you can move a table around
+    -   you can use **structured referencing** - like `=data[score]` - to select an entire column by name, which helps make Excel more robust
+        -   see the intermediate Excel session on referencing
+    -   you can send the data easily and safely to PivotTables, PowerQuery, PowerPivot, and other fancier data tools
+
+## CONCLUSION: USE TABLES {.center}
+
+```{css}
+.center h2 {
+  text-align: center;
+}
+```
+
+
+## Excel training sessions
+
+```{r}
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Feedback
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=Excel%20tables&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)
+
+

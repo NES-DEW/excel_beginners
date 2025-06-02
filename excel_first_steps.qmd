@@ -1,0 +1,265 @@
+---
+title: "Excel first steps"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date-format: DD/MM/YYYY
+date: "`r params$date`"
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+editor_options: 
+  chunk_output_type: console
+params:
+  date: "2025-01-02"
+---
+
+```{r jquery, echo=FALSE}
+htmltools::tagList(rmarkdown::html_dependency_jquery())
+```
+
+```{r}
+#| echo: false
+#| warning: false
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align = "center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"), plot.background = element_rect(fill = "#202c39"), axis.line = element_line(size = 0.5, linetype = "solid", colour = "#f4f3ee"), axis.text = element_text(colour = "#f4f3ee"), text = element_text(colour = "#f4f3ee"), legend.background = element_rect(fill = "#4D5661"), strip.text = element_text(colour = "#f4f3ee"), strip.background = element_rect(fill = "#4D5661", color = "#202c39"), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+  
+## The KIND network
+
+-   a social learning space for staff working with **k**nowledge, **i**nformation, and **d**ata across health, social care, and housing in Scotland
+-   we offer social support, free training, mentoring, community events, ...
+-   [Teams channel](https://teams.microsoft.com/l/team/19%3AQZ7-PbFVcziG2piHLt1_ifey3I2cwFL0yBuTSS8vVao1%40thread.tacv2/conversations?groupId=106d08f3-9026-40e2-b3c7-87cd87304d58&tenantId=10efe0bd-a030-4bca-809c-b5e6745e499a) / [mailing list](https://forms.office.com/pages/responsepage.aspx?id=veDvEDCgykuAnLXmdF5JmpopIZB9ynRJnrPUHVFccipURjM2NkZJUkhGOFlQRjQxRFhVUTgwT0UwVyQlQCN0PWcu)
+
+## Session outline
+
+::: {.notes}
+we'll give you a taster of everything during the session today
+:::
+
+![KIND Excel beginner's skill tree](images/clipboard-3454618035.png){width="100%"}
+
+
+
+## Excel training sessions
+
+```{r}
+KINDR::training_sessions("Excel", start_date = "2025-04-24", end_date = "2025-05-13") 
+```
+
+## A brief overview of Excel
+
+![Excel might be the cement of the universe](images/clipboard-965547330.png){width="60%"}
+
+-   one of the oldest, and most widely used, pieces of desktop software
+-   ubiquitous in business, finance, health and social care...
+-   proprietary, closed-source, paid-for
+-   many versions
+
+## But Excel is badly used, on the whole
+
++ [PHE lost 16k COVID19+ results](https://www.theguardian.com/politics/2020/oct/05/how-excel-may-have-caused-loss-of-16000-covid-tests-in-england)
++ [MI5 bugged 134 people they didn't mean to](https://www.theguardian.com/government-computing-network/2011/jul/01/mi5-data-collection-errors)
++ [JP Morgan 2012](https://www.forbes.com/sites/tomgroenfeldt/2013/02/19/solutions-to-spreadsheet-risk-post-jpms-london-whale/) had a manually-updated spreadsheet
+  - divided by sum, rather than average
+  - massive losses, $2 - $6 billion??
+
+## And most of us fall into Excel work...
+
++ most of us haven't had any formal data training
+  + e.g. in KIND network (which is a very techy group) 75% didn't have a formal qualification
++ and the responsibility for doing data work falls on many of us
+  + data work has become more prominent in lots of jobs
++ and good data work is really important...
+
+  
+## Good data helps...
+
+-   answering which/when questions
+-   seeing effects of changes
+-   comparing different areas
+-   looking at services over time
+-   de-drudging roles
+- ...
+
+## One word of warning before the practical part
+
+-   there are lots of versions of Excel
+-   they all work slightly differently
+-   please don't panic if what you see looks slightly different from what I'm showing you
+-   please ask if you're not happy/confident!
+
+## Opening Excel (desktop)
+
++ find Excel in your Windows Start menu </br>![opening Excel on the Desktop](images/clipboard-1394052793.png)
++ you'll need to create a new blank workbook </br>
+![Create a new blank workbook](images/clipboard-2150015829.png){height="200"}
+
+## Opening Excel (web)
+
++ usually at [https://www.office.com/launch/excel](https://www.office.com/launch/excel)
++ you'll need to create a new blank workbook </br>
+![Create a new blank workbook](images/clipboard-3067626588.png)
+
+## Interface
+
+![Excel interface](images/interface.png){width="90%"}
+
+## Central idea
+
+-   pieces of data are stored in cells
+    -   one value, one cell
+-   cells are arranged into rows and columns</br> ![cells are arranged in rows and columns](images/clipboard-1879510795.png){width="60%"}
+-   arranging data like this allows us to analyse it
+  - it's not just *Word on a grid*
+
+## Save, close, open
+
+
+:::: {.columns}
+
+::: {.column width='60%'}
+![Two options for saving](images/clipboard-3187630465.png)
+:::
+
+::: {.column width='40%'}
++   save your new workbook
++   close it
++   re-open it (possibly from recent files)
+:::
+
+::::
+
+
+
+
+## References
+
+-   every cell in Excel has a **reference** - like its address
+-   references look like this: `E7` <br> ![example references](images/cols.png){height="250"}
+    -   `E` refers to a vertical column
+    -   `7` to a horizontal row
+
+## Data entry
+
+-   let's add some data...
+-   we can type into the cells </br> ![add data by typing into cells](images/clipboard-1771455666.png)
+-   that data appears in the formula bar too
+
+## An example: school holidays
+
+-   Here are some [school holiday dates](https://www.scotborders.gov.uk/schools-learning/term-holiday-closure-dates/2)
+-   make three headings in row 1: `name`, `start_date`, `end_date` </br> ![add three headings in row 1](images/clipboard-1395187747.png)
+
+## Values
+
+-   let's add some values from the [school holiday dates](https://www.scotborders.gov.uk/schools-learning/term-holiday-closure-dates/2)
+-   name of holiday
+-   start date
+-   end date
+    -   dates usually go `DD/MM/YYYY` - as we'll see, Excel does lots of helping when we enter dates...
+    -   ...😱
+-   we'll only need a few rows of data
+
+::: notes
+name start_date end_date Mid-term holidays 14/10/2024 18/10/2024 In service day 21/10/2024 21/10/2024 St Andrew's Day 02/12/2024 02/12/2024
+:::
+
+## Tidy data
+
+-   keep things consistent - spelling, case, formats, etc
+    -   one piece of data per cell
+    -   one instance per row (one school holiday per row)
+    -   one variable per column (a column of names, one of start dates...)
+
+## Tables
+
+-   we can convert this group of cells into a proper **table**
+-   click in one of your cells of data </br> ![Click a cell in your data](images/clipboard-1117112977.png)
+-   `Insert` \> `Table` (or `Ctrl` + `T`) </br> ![Convert to table](images/clipboard-166790706.png)
+-   click `OK`</br>![](images/clipboard-77557231.png)
+
+## Lots of new things to see
+
+![Table features](images/clipboard-1614882971.png)
+
+## Autofill
+
+-   we'll add a formula to calculate how long our holidays are
+-   add a new column called `days`
+-   paste `= 1 + (C2 - B2)` into the first cell of that new column
+    -   and look out for our session on formulas...
+-   double-click the green fill handle to fill the rest of the column </br> ![fill handle](images/clipboard-1731283483.png)
+
+## Formatting
+
+-   we can change the way that our spreadsheet looks
+-   we can also change the way our values look
+
+## Cell formatting
+
+-   some examples </br> ![Formatting area](images/clipboard-4175540765.png)
+    -   highlighting
+    -   bold
+    -   borders
+
+## Number formatting
+
+-   our dates are **number formatted**
+-   Excel dates are actually numbers (like `45583`) formatted to look like dates
+-   1900 dates!
+-   percentages, £, ...
+
+## Conditional formatting
+
+-   we can also format based on values </br> ![Conditional formatting](images/clipboard-3358194074.png)
+-   take care though - this can be both ugly, and inaccessible
+
+## Excel training sessions
+
+```{r}
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Feedback
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=Excel%20first%20steps&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)
+

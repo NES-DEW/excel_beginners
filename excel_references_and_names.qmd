@@ -1,0 +1,220 @@
+---
+title: "References and names in Excel"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date: "`r params$date`"
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+editor_options: 
+  chunk_output_type: console
+params:
+  date: "2025-01-02"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align="center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"),
+        plot.background = element_rect(fill = "#202c39"),
+        axis.line = element_line(size = 0.5, linetype = "solid",
+                                   colour = "#f4f3ee"),
+        axis.text = element_text(colour="#f4f3ee"),
+        text = element_text(colour="#f4f3ee"),
+        legend.background = element_rect(fill = "#4D5661"),
+        strip.text = element_text(colour="#f4f3ee"),
+        strip.background = element_rect(fill="#4D5661", color="#202c39"),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank()
+        )
+```
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+
+
+## Session outline
+
+![Beginner's Excel skill-tree](images/clipboard-4090026779.png)
+
+- this is a beginners session about references and names in Excel
+- this is social learning (cameras, contribute, calm)
+- we'll run through the basics of references and names, and then move into a practical demo
+
+## References
+
+-   Excel sheets are made up of cells
+-   cells are arranged in rows and columns
+    -   columns have letters - like `C`
+    -   rows have numbers - like `3`
+-   references are the 'address' of a particular cell - like `C3`
+
+## What do references do?
+
++ references identify cells: like an address
++ references let you use the value a cell contains
++ e.g. adding up columns, calculating averages, finding differences
+
+::: {.notes}
+show a practical example
+:::
+
+## Finding a reference
+
+-   from the **name box**: </br> ![](images/clipboard-1746127255.png)
+-   or work out from the column and row labels
+    - always column letter, then row number
+    - **C3**, not **3C**
+
+## Using a reference
+
+- we can write a formula that copies the value from C3 into another cell
+- formulas start with an `=`
+- so writing `= C3` copies the value from C3 into another cell
+
+## References in formulas
+
+-  we use references to allow us to pass data around our spreadsheet
+-  that allows us to perform calculations on that data
+
+::: {.notes}
+ an example: how much did Emma's score improve during the session?
+-  calculate this with `= C3 - C2`
+:::
+
+
+## References move
+- by default, Excel references are **relative**
+- when you move a reference, the cell that reference points to also moves </br> ![](images/clipboard-754991469.png){width="200"}
+- it is possible to 'fix' references
+    - we call these **absolute** references
+    - the `$` fixes a reference, so `$C$3` is absolute
+    
+## Names
+- it's possible to name cells by typing in the name box
+- that's useful if you have a value you need to refer to several times: it's easier to remember what `max_score` means than `D44`
+
+# Practical
+
+## Some sample data
+
+| user   | pre-training score  | post-training score  | session |
+|--------|---------------------|----------------------|---------|
+| Steve  | 4                   | 6                    | Excel 1 |
+| Emma   | 7                   | 6                    | Excel 2 |
+| Bhavin | 3                   | 9                    | Excel 1 |
+
+## Using a reference
+
+-   we can write a formula that copies the value from C3 into another cell
+
+. . .
+
+::: {.callout-tip appearance="default" icon="true"}
+
+-   go to an empty cell, type `= C3`, and press `Enter/⏎`
+- that cell should now have Emma's visit date (or whatever value you referenced)
+:::
+
+
+## References in formulas
+
+-   how much did people improve during the training session?
+
+. . .
+
+::: {.callout-tip appearance="default" icon="true"}
+## Task
+
+-   add a new column called `improvement`
+-   in the first row of that column, add the formula: `= C2 - B2`
+    -   that calculates the post-training score minus the pre-training score</br> ![](images/clipboard-2200716982.png){height="200"}
+- then copy/fill down
+
+:::
+
+## References move
+
+::: {.callout-tip appearance="default" icon="true"}
+## Task
++ try copying your new block of `improvement` cells around your sheet
++ their value should change (almost certainly to a `#VALUE` error)
++ now try clicking those cells to see where the updated reference points to </br> ![](images/clipboard-754991469.png)
+:::
+
+
+
+## Absolute references
+::: {.callout-tip appearance="default" icon="true"}
+## Task
++ delete your copied blocks of cells from the last step
++ now update your references by adding `$` before the letter and number
+    + so `C2` becomes `$C$2`
+    + you might prefer to press `F4` instead
++ now copy and paste those blocks of cells again. What's different this time?
++ please delete those new blocks of cells when you're finished
+
+:::
+
+
+::: {.notes}
+
+- almost everything in Excel can be named
+- the easy way to start with that is using the **name box**
+- names can replace references in formulas
+- this is valuable when things get more complicated
+
+- manage via the **Name manager** (`Ctrl` + `F3`)
+- **Go to** (`F5`)
+
+:::
+
+
+
+## Excel training sessions
+
+```{r}
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=References%20and%20names%20in%20Excel&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)
+
+

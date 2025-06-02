@@ -1,0 +1,171 @@
+---
+title: "Formulas in Excel"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date-format: DD/MM/YYYY
+date: "`r params$date`"
+bibliography: references.bib
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+editor_options: 
+    chunk_output_type: console
+params:
+  date: "2025-01-02"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# str_replace_all(read_lines("Excel formulas"), "[^\x01-\x7F]+", "") |>
+#     write_lines("temp_pdf.qmd")
+# quarto::quarto_render(input = "temp_pdf.qmd", output = Excel formulas", output_format = "pdf")
+# unlink(temp_pdf.qmd)
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align = "center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"), plot.background = element_rect(fill = "#202c39"), axis.line = element_line(size = 0.5, linetype = "solid", colour = "#f4f3ee"), axis.text = element_text(colour = "#f4f3ee"), text = element_text(colour = "#f4f3ee"), legend.background = element_rect(fill = "#4D5661"), strip.text = element_text(colour = "#f4f3ee"), strip.background = element_rect(fill = "#4D5661", color = "#202c39"), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+
+## The KIND network
+
+-   a social learning space for staff working with **k**nowledge, **i**nformation, and **d**ata across health, social care, and housing in Scotland
+-   we offer social support, free training, mentoring, community events, ...
+-   [Teams channel](https://teams.microsoft.com/l/team/19%3AQZ7-PbFVcziG2piHLt1_ifey3I2cwFL0yBuTSS8vVao1%40thread.tacv2/conversations?groupId=106d08f3-9026-40e2-b3c7-87cd87304d58&tenantId=10efe0bd-a030-4bca-809c-b5e6745e499a) / [mailing list](https://forms.office.com/pages/responsepage.aspx?id=veDvEDCgykuAnLXmdF5JmpopIZB9ynRJnrPUHVFccipURjM2NkZJUkhGOFlQRjQxRFhVUTgwT0UwVyQlQCN0PWcu)
+
+## Where does this fit in?
+
+![KIND Excel beginner skill tree](images/clipboard-1882650124.png)
+
+-   for this session, you'll need to be familiar with the Excel basics (getting around in Excel, opening/saving/closing files)
+-   you'll also need to be familiar with A1 referencing, values, and tables
+-   we're going to avoid talking about formatting as much as possible today
+
+## Session outline
+
+-   values and formulas
+-   simple functions
+-   references in formulas
+
+## Values and formulas
+
+-   cells in Excel contain either values, or formulas
+
+
+## Values
+
+![Example value, showing identical cell contents and formula bar contents](images/clipboard-3551345224.png)
+
+-   when you enter some data in a cell, we call that a **value**
+-   values look the same in their cell as in the formula bar
+
+## Formulas
+
+-   we can also make a value using a formula
+-   Excel evaluates/calculates the formula, then displays the result as a value
+-   in an empty cell, try entering `= 2 + 2`
+
+. . .
+
+![Example formula, showing different cell contents and formula bar contents](images/clipboard-3551345224b.png)
+
+## Example formulas
+
+-   we can do ordinary arithmetic in formulas `/`, `*`, `-`, `+`...
+-   you can also try `&` which joins values
+    -   `= "This number is " & 5`
+
+## Functions
+
+-   But most formulas use functions, which are like the verbs of Excel
+-   Try `= SUM(2, 2)`
+
+## Adding functions
+
+-   you can type functions in by name (as above)
+
+-   you can also add from the `Formulas` area of the ribbon </br>![add from the Formulas area of the ribbon](images/clipboard-4177249094.png)
+
+-   or you can use the $fx$ button by the formula bar </br>![use the fx button by the formula bar](images/clipboard-2091819162.png)
+
+## Function arguments
+
+-   adding a function by $fx$ or the menu brings up the **Function Arguments** interface </br>![Function Arguments interface](images/clipboard-2410234964.png)
+
+-   This is a helpful builder for more complicated functions
+
+## What are arguments?
+
++   **arguments** are the values we supply to a function 
+    
+    + in `=SUM(2,3)`, the arguments are `2` and `3`
++   we separate arguments with a comma `,`
++   we need to be sure we're supplying the right arguments in the right order (this gets described as the **syntax** of a function)
++   we also, while we're on the jargon, say that functions **return** a value so `= SUM(4,3)` will return `7`
+
+## Useful simple functions
+
+-   in the same way as `=SUM()`, you can try:
+    -   `AVERAGE`
+    -   `MIN` and `MAX`
+    -   `SUBSTITUTE`
+    -   `CEILING`
+    -   `TODAY`
+    -   `ROUND`
+
+## References in formulas
+
+-   mostly, you won't add values directly into your formulas
+-   instead, you'll bring them in from another part of your spreadsheet
+-   can you use `SUM()` to make a total column?
+    -   then copy down the rows by double-clicking the green fill handle ![green fill handle](images/clipboard-4213326820.png)
+
+## Troubleshooting functions
+
+-   `#NAME?` = "I don't recognise that function name"
+-   `#VALUE!` = "Your syntax has gone wrong - usually in the wrong order"
+-   `#REF!` = "I don't recognise that reference"
+-   `#DIV/0!` = "You've divided by zero"
+
+
+## Feedback
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=Excel%20formulas&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)
+

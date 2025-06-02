@@ -1,0 +1,219 @@
+---
+title: "Excel formatting"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date-format: DD/MM/YYYY
+date: "`r params$date`"
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+params:
+  date: "2025-01-02"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# str_replace_all(read_lines("Excel formatting"), "[^\x01-\x7F]+", "") |>
+#     write_lines("temp_pdf.qmd")
+# quarto::quarto_render(input = "temp_pdf.qmd", output = Excel formatting", output_format = "pdf")
+# unlink(temp_pdf.qmd)
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align = "center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"), plot.background = element_rect(fill = "#202c39"), axis.line = element_line(size = 0.5, linetype = "solid", colour = "#f4f3ee"), axis.text = element_text(colour = "#f4f3ee"), text = element_text(colour = "#f4f3ee"), legend.background = element_rect(fill = "#4D5661"), strip.text = element_text(colour = "#f4f3ee"), strip.background = element_rect(fill = "#4D5661", color = "#202c39"), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+::: {.notes}
+Vay
+:::
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+
+
+
+## Where does this fit in?
+
+![KIND Excel beginner skill tree](images/clipboard-4054981329.png)
+
+-   for this session, you'll need to be familiar with the Excel basics (getting around in Excel, opening/saving/closing files)
+-   you'll also need to be familiar with A1 referencing, values, and tables
+-   we're going to avoid talking about formulas as much as possible today
+
+## Session outline
+
+(thanks Deborah Calvin, Brian Orpin, Michael Roarty, Kenneth Mack, Catherine McGrenera, June Livey, Catriona Scott)
+
+-   accessibility
+-   formatting cells
+-   formatting values (aka **number formatting**)
+-   formatting vs themes
+-   shortcuts and tips
+-   an introduction to conditional formatting
+
+
+## Accessibility
+
+-   many of us will have legal duties to make parts of our services accessible
+    -   e.g. [The Public Sector Bodies (Websites and Mobile Applications) Accessibility Regulations 2018](https://www.legislation.gov.uk/uksi/2018/852/contents/made)
+-   there are [useful standards for making sense of accessibility](https://www.w3.org/TR/WCAG21/)
+
+## Excel is a mixed bag for accessibility
+
+-   it is easy to make non-accessible documents in Excel
+    -   inconsistent use of tables
+    -   poor column headings, sheet names, etc
+    -   un-labelled charts
+    -   merged and split cells
+    -   low-contrast themes
+    -   meaning conveyed by colour and fonts
+-   there is a [built-in accessibility checker in some versions of Excel](https://support.microsoft.com/en-gb/office/accessibility-best-practices-with-excel-spreadsheets-6cc05fc5-1314-48b5-8eb3-683e49b3e593), which you might find useful
+
+::: {.notes}
+Swap to Brendan for formatting practical
+:::
+
+## Formatting cells
+
+-   please create a new Excel workbook
+-   you can format each cell individually via the right click menu and `Format cells` (or by the `Ctrl` + `1` shortcut) </br>![Format cells](images/clipboard-4055118942.png){height="400"}
+
+## Format cells dialogue
+
+![Format cells dialogue](images/clipboard-2783553285.png){height="150"}
+
+-   you can fill cells with custom fonts, alignments, colours, patterns, and gradients (via `Fill Effects...`)
+-   you can add borders to individual cells
+
+## Formatting many cells
+
+-   this is fine for a few cells, but gets boring (and inconsistent) if you have lots of styling to do
+-   you can select several cells, and access the `Format cells dialogue` to style them together
+-   or you can select a cell with a theme you want to copy, and use the `Format Painter` tool to spread that format about the place </br> ![Format Painter](images/clipboard-1122732356.png)
+
+## Theming
+
+-   you can also **theme** your whole workbook </br> ![theme your whole workbook](images/clipboard-3790842491.png)
+-   take care, though, as many of these themes are not accessible and often produce hard-to-read results
+-   and lots of ugly clunky stuff to find (e.g. default font changes)
+-   on balance, better to avoid themes unless you're certain they'll be of benefit for you
+
+## Help! I hate my formatting!
+
+-   `Clear` \> `Clear Formats` (or `Alt`, `H`, `E`, `F`) </br>![Clear Formats](images/clipboard-2778290463.png)
+-   note this doesn't clear out all the formatting from themes - especially odd fonts etc
+-   also worth having the `Paste as Values` trick in your back pocket for when things go horribly wrong </br>![Copy and paste](images/clipboard-2009747898.png){height="200"} ![Then select Paste as Values to remove everything but the values themselves](images/clipboard-1815980106.png)
+
+## Number formatting
+
+- number formatting is taking a value, and changing its meaning with formatting
+- number formatting is how dates work (or fail to work) in Excel
+- dates are v. important, so we'll concentrate on them in this part of the session
+- you'll also encounter number formatting when working with...
+    -   money
+    -   percentages
+    -   decimal places
+    -   ...
+
+## Date formatting
+
+-   we'll take a number, and apply special formatting to it to make it look like a date
+    -   so `45483` will become `10/07/2024`
+-   Excel dates are stored as the number of days since Jan 1st 1900
+-   you can prove this to yourself by typing `1` into a cell, then formatting it as a date using the number formatting menu: </br>![Formatting 1 as a date](images/clipboard-4127875250.png){height="300"}
+-   you can also format as a date via the Format Cells dialogue (`Ctrl` + `1`)
+
+## Don't try and cheat with dates!
+
+-   date formatting is one of the commonest pain points in Excel
+- dates are extremely complicated, and we often want to calculate with them
+-   the advice is simple: dates should always be stored as these numbers, and then formatted to look like dates
+    - don't try to cheat by writing dates as text
+    - use formatting to produce your preferred date format in the  Format Cells tools instead </br>![Format Cells](images/clipboard-1573227329.png){height="200"}
+
+
+## Conditional formatting
+
+-   this can get complicated, and we'll revisit more fancy conditional formatting in the intermediate training sessions
+-   the big idea is that conditional formatting alters the format as values change
+
+::: {.notes}
+Switch back to Vay
+:::
+
+## Progress bars
+-   Put a few random numbers in a column ![Put a few random numbers in a column](images/clipboard-1315843620.png){height="100"}
+
+-   Select them, and go to the Conditional Formatting menu ![go to the Conditional Formatting menu](images/clipboard-867757489.png){height="50"}
+
+-   Select Data Bars </br>![Select Data Bars](images/clipboard-83873237.png)
+
+## Duplicate values
+-   Now clear that conditional formatting </br>![Clear conditional formatting](images/clipboard-199897657.png){height="200"}
+-   Add a duplicate value to your numbers </br> ![Add a duplicate value to your numbers](images/clipboard-3663616570.png){height="100"}
+
+## Duplicate values
+-   Highlight duplicate values </br>![Highlight duplicate values](images/clipboard-3254436237.png)
+
+## Red-Amber-Green reporting
+-   RAG reporting with icon sets </br>![RAG reporting with icon sets](images/clipboard-2465658889.png)
+
+## Key shortcuts
+
+-   `Ctrl` + `1` for the Format Cells dialogue
+-   `Alt`, `H`, `E`, `F` to clear formats
+-   `Ctrl` + `Shift` + `V` to paste values only 
+
+## Formatting tips
+
+-   Accessibility is much more important than beauty
+-   Use number formatting for dates, currency, percentages
+-   Consider using validation to make sure that cells only contain what you expect them to contain
+-   Consider locking cells to protect formatting when that formatting is really important
+-   Use conditional formatting sparingly
+
+## Excel training sessions
+
+```{r}
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Feedback
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=Excel%20formatting&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)

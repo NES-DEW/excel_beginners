@@ -1,0 +1,1 @@
+Training materials for the KIND network's Excel for beginner's training course. This repository is intended to be used behind the scenes: if you're interested in accessible materials for this course, [please see our training pages](https://nes-dew.github.io/KIND-training/excel_main.html).

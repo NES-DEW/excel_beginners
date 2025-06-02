@@ -1,0 +1,202 @@
+---
+title: "Tidy data in Excel"
+author: "Brendan Clarke, NHS Education for Scotland, [brendan.clarke2@nhs.scot](mailto:brendan.clarke2@nhs.scot)"
+date-format: DD/MM/YYYY
+date: "`r params$date`"
+format:
+    revealjs:
+        theme: [default, custom.scss]
+        width: 1600
+        margin: 0.1
+        logo: src/images/KLN_banner_v05_125_d.png
+        css: src//images//logo_d.css
+        incremental: true
+        embed-resources: true
+editor_options: 
+    chunk_output_type: console
+params:
+  date: "2025-01-02"
+---
+
+```{r}
+#| echo: false
+#| warning: false
+
+# str_replace_all(read_lines("Tidy data in Excel"), "[^\x01-\x7F]+", "") |>
+#     write_lines("temp_pdf.qmd")
+# quarto::quarto_render(input = "temp_pdf.qmd", output = Tidy data in Excel", output_format = "pdf")
+# unlink(temp_pdf.qmd)
+
+knitr::opts_chunk$set(echo = F, warning = F, message = F, results = "asis", fig.width = 15, fig.height = 6, fig.align = "center")
+
+library(pacman)
+p_load(tidyverse, KINDR)
+
+colz <- c("#f29559", "#f2d492","#202c39", "#f4f3ee" )
+theme_set(theme_classic())
+theme_update(panel.background = element_rect(fill = "#202c39"), plot.background = element_rect(fill = "#202c39"), axis.line = element_line(size = 0.5, linetype = "solid", colour = "#f4f3ee"), axis.text = element_text(colour = "#f4f3ee"), text = element_text(colour = "#f4f3ee"), legend.background = element_rect(fill = "#4D5661"), strip.text = element_text(colour = "#f4f3ee"), strip.background = element_rect(fill = "#4D5661", color = "#202c39"), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
+```
+
+
+## Excel training sessions
+
+```{r}
+source("R/training_sessions.R")
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+
+## Welcome
+
+- this session is aimed at Excel beginners
+- it's social and practical, so **cameras on** please
+- while we're waiting to start, you might like to:
+  - join our Teams channel: **[tinyurl.com/kindnetwork](https://forms.office.com/r/WQdd6HSCEW)**
+  - look at our training pages: **[tinyurl.com/kindtrp](https://nes-dew.github.io/KIND-training/)**
+  - look at [the M365 Skills Hub](https://scottish.sharepoint.com/sites/NHSSLearningPathways)
+
+## Where does this fit in?
+
+![KIND Excel beginner skill tree](images/clipboard-3911010684.png)
+
+-   for this session, you'll need to be familiar with the Excel basics (getting around in Excel, opening/saving/closing files, and a little bit of A1 referencing)
+-   we're going to dodge formatting and formulas as much as possible today
+
+## Session outline
+
+- a word of warning
+- understanding tidy data
+- a practical introduction to making tidy data
+- text to columns
+- transposing
+
+## A word of warning
+
+-   tidying data can be very slow and complicated
+-   in Excel, there are lots of advanced tools that can speed things up
+    -   PowerQuery especially
+-   this is a beginner's session, so we'll avoid the more fancy tools
+-   **but** if your process takes lots of manual work, it's definitely worth exploring alternative ways of working
+
+## Tidy data 
+
+```{r}
+tibble(date = c("2025-01-01", "2025-01-02", "2025-01-03"),
+       service_a = c(99,77,55),
+       service_b = c(11,33,55)) |>
+  knitr::kable()
+```
+
+. . .
+
+* one value per cell
+* each column contains all the values of one measurement
+* each row shows all the values for one date
+
+## Entering values
+
+-   imagine that we want to measure something across several years: `2018, 2019, 2020, 2021, 2022`?
+-   practical:
+    -   open Excel
+    -   start a new workbook
+    -   add a column header `year` in cell `A1`
+    -   then add each of those five values in the five cells underneath (down to `A6`)
+
+## More values
+
+-   we're going to be using some [birthrate data from the NRS](https://www.nrscotland.gov.uk/publications/births-time-series-data/) for this session. We'll start by adding some birth rate data
+
+-   this is given as births per 1,000 women in five year age brackets. We'll start with 25-29 year old mothers
+
+-   please add the header `25-29yrs` in cell `B1`
+
+-   here are the values for our five years: `73.4, 71, 66.8, 69.6, 66.7`
+
+## Another column
+
+| 30-34yrs |
+|----------|
+| 90.9     |
+| 88.6     |
+| 83.4     |
+| 85.9     |
+| 84.4     |
+
+-   please could you add some new data to your table showing births for another age group
+
+## Back to tidy data
+
+-   we've now got some data with:
+    -   each value in a cell
+    -   each variable in a column
+        -   here, this is a maternal age bracket
+    -   each observation in a row
+        -   here, this is a year
+
+
+## Fixing several values per cell
+
+-   We often find useful data with more than one value per cell
+-   this can be helpful for humans </br> ![multiple values is good for humans, but bad for Excel](images/clipboard-1363924537.png)
+-   Excel can't do anything with this data
+
+## Exercise: many values per cell
+
+| 35-39	    |
+|-----------|
+| 54.2 (21%)|
+| 52.7 (20%)|
+| 49.4 (19%)|
+| 52.8 (20%)|
+| 52	(20%) |
+
+- please add this column of data to your table
+- does it look similar to your existing data?
+
+
+## What's the solution?
+
+-   make this data have **one value per cell**
+-   we could remove all the percentages by hand
+-   `Text to Columns` gives us a better tool for the job </br> ![Text to Columns gives us a better tool for the job](images/clipboard-3594403318.png)
+
+## Text to Columns
+
+-   select a column
+-   in the `Data` tab of the ribbon, you should find the `Text to Columns` tool </br> ![Text to Columns tool](images/clipboard-3002655192.png)
+-   note that you can keep, or remove, the percentage column. We'll **skip** it, to keep things simple </br> ![keep, or remove, the percentage column](images/clipboard-4061284093.png)
+
+
+## Exercise: transposed data
+
+| Bracket | 2018| 2019| 2020| 2021| 2022|
+|---------|-----|-----|-----|-----|-----|
+| 25-29yrs|73.4 |71.0	|66.8	|69.6	|66.7 |
+| 30-34yrs|90.9	|88.6	|83.4	|85.9	|84.4 |
+| 35-39yrs|54.2	|52.7	|49.4	|52.8	|52.0 |
+
+-   sometimes you'll find data where the columns and rows have been flipped 
+-   that's slow to fix by hand, but luckily you can **transpose it**, which swaps rows and columns
+-   select your data, and copy/paste into a new cell
+-   then use the transpose option <br>![transpose option](images/clipboard-3580893754.png)
+
+## Excel training sessions
+
+```{r}
+training_sessions("Excel", start_date = params$date, n = 5) 
+```
+
+## Feedback
+
+```{r}
+# makurl
+
+url <- paste0("https://forms.office.com/Pages/ResponsePage.aspx?id=veDvEDCgykuAnLXmdF5Jmn79kl25VpJIq3eErXXCYKBUMlhWQVRTMERFVjU5TUdMSEVEMzYwODRWVC4u&r763e4a3a535149438ffa4d7812e07773=Tidy%20data%20in%20Excel&r96bb56f248fb457899d2a813d349450f=%22", 
+       params$date, 
+       "%22")
+```
+
+
+-   please [complete our 1-minute, anonymous, feedback survey](`r url`)
+
+
