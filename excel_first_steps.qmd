@@ -69,13 +69,6 @@ we'll give you a taster of everything during the session today
 ![KIND Excel beginner's skill tree](images/clipboard-3454618035.png){width="100%"}
 
 
-
-## Excel training sessions
-
-```{r}
-KINDR::training_sessions("Excel", start_date = "2025-04-24", end_date = "2025-05-13") 
-```
-
 ## A brief overview of Excel
 
 ![Excel might be the cement of the universe](images/clipboard-965547330.png){width="60%"}
